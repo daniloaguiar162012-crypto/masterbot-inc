@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MasterBot Inc — Os Melhores Bots do Discord BR</title>
+<meta name="description" content="Bots profissionais e gratuitos para Discord. TicketMaster BR, WelcomeMaster BR, SorteioMaster BR e muito mais! 100% gratuito.">
+<meta name="keywords" content="bot discord, bot discord br, bot discord gratuito, ticket bot, welcome bot, sorteio bot, parceria bot">
+<meta name="author" content="Shadow — MasterBot Inc">
+<meta name="theme-color" content="#F5C842">
+
+<!-- Open Graph -->
+<meta property="og:title" content="MasterBot Inc — Os Melhores Bots do Discord BR">
+<meta property="og:description" content="Bots profissionais e 100% gratuitos para Discord. TicketMaster BR, WelcomeMaster BR, SorteioMaster BR e muito mais!">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://i.imgur.com/8YMmP3a.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MasterBot Inc — Bots Discord BR">
+<meta name="twitter:description" content="Bots profissionais e 100% gratuitos para Discord!">
+
+<!-- PWA -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MasterBot Inc">
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #F5C842; --gold2: #E8A020; --gold3: #FFE082;
+  --purple: #7C3AED; --purple2: #A855F7;
+  --dark: #060610; --dark2: #0D0D1F; --dark3: #131328; --dark4: #1A1A35;
+  --text: #F0F0FF; --text2: #8888AA; --text3: #BBBBDD;
+  --green: #10B981; --red: #EF4444; --blue: #3B82F6;
+}
+[data-theme="light"] {
+  --dark: #F5F5FF; --dark2: #EBEBFF; --dark3: #E0E0F8; --dark4: #D5D5F0;
+  --text: #111122; --text2: #555577; --text3: #333355;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;line-height:1.6;transition:background 0.3s,color 0.3s;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--dark2);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+/* CURSOR */
+.cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s;mix-blend-mode:difference;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(245,200,66,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease;}
+
+/* LOADING */
+#loading{position:fixed;inset:0;background:var(--dark);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;}
+#loading.hide{opacity:0;pointer-events:none;}
+.loading-logo{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--gold3),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem;}
+.loading-bar{width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;}
+.loading-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0;animation:load 1.5s ease forwards;}
+@keyframes load{to{width:100%;}}
+
+/* CONFETTI */
+.confetti-piece{position:fixed;width:8px;height:8px;top:-10px;z-index:9997;animation:confettiFall 3s ease-in forwards;}
+@keyframes confettiFall{to{transform:translateY(105vh) rotate(720deg);opacity:0;}}
+
+/* COOKIE BANNER */
+#cookie-banner{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--dark3);border:1px solid rgba(245,200,66,0.2);border-radius:12px;padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;z-index:1000;max-width:600px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.5);}
+#cookie-banner p{font-size:0.85rem;color:var(--text2);}
+#cookie-banner p a{color:var(--gold);text-decoration:none;}
+.cookie-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;padding:0.5rem 1.2rem;border-radius:6px;font-weight:700;font-size:0.82rem;cursor:pointer;white-space:nowrap;}
+.cookie-dismiss{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--text2);padding:0.5rem 0.8rem;border-radius:6px;font-size:0.82rem;cursor:pointer;}
+
+/* POPUP NOVIDADE */
+#popup{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+#popup.hide{display:none;}
+.popup-box{background:var(--dark3);border:1px solid rgba(245,200,66,0.3);border-radius:16px;padding:2.5rem;max-width:450px;width:90%;text-align:center;position:relative;}
+.popup-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--text2);font-size:1.2rem;cursor:pointer;}
+.popup-box h3{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:0.8rem;background:linear-gradient(135deg,var(--gold3),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.popup-box p{color:var(--text2);font-size:0.9rem;margin-bottom:1.5rem;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,16,0.85);backdrop-filter:blur(24px);border-bottom:1px solid rgba(245,200,66,0.1);transition:all 0.3s;}
+nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,0.5);}
+.nav-logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--gold3),var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.88rem;font-weight:500;letter-spacing:0.3px;transition:color 0.3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:0.8rem;}
+.theme-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--text2);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;transition:all 0.3s;display:flex;align-items:center;justify-content:center;}
+.theme-btn:hover{border-color:var(--gold);color:var(--gold);}
+.nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;padding:0.5rem 1.3rem;border-radius:6px;font-size:0.83rem;font-weight:700;text-decoration:none;transition:all 0.3s;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,200,66,0.35);}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;background:transparent;border:none;cursor:pointer;padding:5px;}
+.hamburger span{width:24px;height:2px;background:var(--text);transition:all 0.3s;display:block;}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+.mobile-menu{position:fixed;top:70px;left:0;right:0;background:rgba(6,6,16,0.97);backdrop-filter:blur(24px);padding:1.5rem 2rem;z-index:99;transform:translateY(-110%);transition:transform 0.4s ease;border-bottom:1px solid rgba(245,200,66,0.1);}
+.mobile-menu.open{transform:translateY(0);}
+.mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:1rem;}
+.mobile-menu a{color:var(--text2);text-decoration:none;font-size:1rem;font-weight:500;transition:color 0.3s;}
+.mobile-menu a:hover{color:var(--gold);}
+
+/* CANVAS */
+#canvas-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.35;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;z-index:1;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(124,58,237,0.12) 0%,transparent 70%);}
+.hero-inner{max-width:860px;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.25);color:var(--gold);padding:0.45rem 1.2rem;border-radius:50px;font-size:0.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem;animation:badgePulse 3s ease-in-out infinite;}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(245,200,66,0.15);}50%{box-shadow:0 0 0 8px rgba(245,200,66,0);}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:800;line-height:1.0;letter-spacing:-2px;margin-bottom:1.5rem;}
+.hero h1 .line1{display:block;color:var(--text);}
+.hero h1 .line2{display:block;background:linear-gradient(135deg,var(--gold3),var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{font-size:clamp(1rem,1.8vw,1.2rem);color:var(--text2);max-width:600px;margin:0 auto 2.5rem;line-height:1.7;}
+.hero-desc strong{color:var(--gold);font-weight:600;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:5rem;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;padding:0.85rem 2.2rem;border-radius:8px;font-size:0.95rem;font-weight:700;text-decoration:none;transition:all 0.3s;display:inline-flex;align-items:center;gap:0.5rem;}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(245,200,66,0.4);}
+.btn-outline{background:transparent;color:var(--text);padding:0.85rem 2.2rem;border-radius:8px;font-size:0.95rem;font-weight:600;text-decoration:none;transition:all 0.3s;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;gap:0.5rem;}
+.btn-outline:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.3);transform:translateY(-3px);}
+.hero-stats{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;}
+.stat-item{text-align:center;padding:1.2rem 2rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;}
+.stat-num{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--gold);display:block;line-height:1;}
+.stat-lbl{font-size:0.78rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-top:0.3rem;display:block;}
+
+/* SECTIONS */
+.section{position:relative;z-index:1;padding:7rem 2rem;}
+.section-header{text-align:center;margin-bottom:4rem;}
+.section-tag{display:inline-block;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:var(--purple2);padding:0.3rem 1rem;border-radius:50px;font-size:0.73rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-1px;color:var(--text);margin-bottom:0.8rem;}
+.section-title span{background:linear-gradient(135deg,var(--gold3),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.section-desc{color:var(--text2);font-size:1.05rem;max-width:550px;margin:0 auto;}
+.sep{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(245,200,66,0.2) 50%,transparent 100%);position:relative;z-index:1;}
+
+/* FILTER BOTS */
+.filter-row{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;}
+.filter-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text2);padding:0.45rem 1.1rem;border-radius:50px;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.3s;}
+.filter-btn:hover,.filter-btn.active{background:rgba(245,200,66,0.12);border-color:rgba(245,200,66,0.3);color:var(--gold);}
+
+/* BOTS */
+.bots-section{background:linear-gradient(180deg,var(--dark) 0%,var(--dark2) 50%,var(--dark) 100%);}
+.bots-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto;}
+.bot-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);}
+.bot-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.4s;}
+.bot-card:hover{transform:translateY(-6px);border-color:rgba(245,200,66,0.25);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(245,200,66,0.08);}
+.bot-card:hover::before{opacity:1;}
+.bot-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.2rem;}
+.bot-icon-wrap{width:52px;height:52px;border-radius:12px;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.2);display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
+.bot-badge{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--green);padding:0.2rem 0.7rem;border-radius:50px;font-size:0.68rem;font-weight:600;letter-spacing:1px;}
+.bot-name{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:0.5rem;letter-spacing:-0.3px;}
+.bot-desc{color:var(--text2);font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem;}
+.bot-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;}
+.tag{background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.2);color:var(--purple2);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.7rem;font-weight:600;}
+.bot-footer{display:flex;align-items:center;justify-content:space-between;}
+.bot-add-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;padding:0.55rem 1.3rem;border-radius:7px;font-size:0.85rem;font-weight:700;text-decoration:none;transition:all 0.3s;display:inline-flex;align-items:center;gap:0.4rem;}
+.bot-add-btn:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(245,200,66,0.35);}
+.bot-share-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--text2);width:34px;height:34px;border-radius:7px;cursor:pointer;font-size:0.9rem;transition:all 0.3s;display:flex;align-items:center;justify-content:center;}
+.bot-share-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* FEATURES */
+.features-section{background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(124,58,237,0.07) 0%,transparent 70%);}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;max-width:1100px;margin:0 auto;}
+.feature-item{padding:1.5rem;border-radius:12px;border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);transition:all 0.3s;}
+.feature-item:hover{border-color:rgba(245,200,66,0.15);background:rgba(245,200,66,0.03);transform:translateY(-2px);}
+.feature-icon{font-size:1.8rem;margin-bottom:0.8rem;}
+.feature-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:0.4rem;}
+.feature-text{font-size:0.85rem;color:var(--text2);line-height:1.5;}
+
+/* STATS */
+.stats-section{background:var(--dark2);}
+.stats-row{display:flex;justify-content:center;flex-wrap:wrap;gap:0;max-width:900px;margin:0 auto;border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;}
+.stat-big{flex:1;min-width:180px;padding:3rem 2rem;text-align:center;border-right:1px solid rgba(255,255,255,0.06);position:relative;}
+.stat-big:last-child{border-right:none;}
+.stat-big::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.stat-big-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--gold3),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;}
+.stat-big-lbl{font-size:0.82rem;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;margin-top:0.3rem;}
+
+/* ROADMAP */
+.roadmap-section{background:var(--dark);}
+.roadmap-list{max-width:700px;margin:0 auto;position:relative;}
+.roadmap-list::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold),var(--purple2),transparent);}
+.roadmap-item{display:flex;gap:1.5rem;padding:1.5rem 0;position:relative;}
+.roadmap-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;position:relative;z-index:1;}
+.roadmap-dot.done{background:rgba(16,185,129,0.2);border:2px solid var(--green);}
+.roadmap-dot.progress{background:rgba(245,200,66,0.2);border:2px solid var(--gold);animation:roadmapPulse 2s infinite;}
+.roadmap-dot.planned{background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.15);}
+@keyframes roadmapPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,200,66,0.3);}50%{box-shadow:0 0 0 8px rgba(245,200,66,0);}}
+.roadmap-content{padding-top:0.5rem;}
+.roadmap-status{font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:0.3rem;}
+.roadmap-status.done{color:var(--green);}
+.roadmap-status.progress{color:var(--gold);}
+.roadmap-status.planned{color:var(--text2);}
+.roadmap-title{font-weight:700;font-size:0.98rem;margin-bottom:0.3rem;}
+.roadmap-desc{font-size:0.85rem;color:var(--text2);line-height:1.5;}
+
+/* UPDATES */
+.updates-section{background:var(--dark2);}
+.updates-list{max-width:700px;margin:0 auto;}
+.update-item{display:flex;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.update-item:last-child{border-bottom:none;}
+.update-date{flex-shrink:0;width:70px;text-align:center;}
+.update-date-day{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--gold);display:block;line-height:1;}
+.update-date-month{font-size:0.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.update-tag{display:inline-block;padding:0.15rem 0.6rem;border-radius:4px;font-size:0.68rem;font-weight:700;letter-spacing:0.5px;margin-bottom:0.4rem;}
+.update-tag.new{background:rgba(16,185,129,0.15);color:var(--green);}
+.update-tag.fix{background:rgba(239,68,68,0.15);color:var(--red);}
+.update-tag.improve{background:rgba(59,130,246,0.15);color:var(--blue);}
+.update-title{font-weight:600;font-size:0.93rem;margin-bottom:0.3rem;}
+.update-desc{font-size:0.83rem;color:var(--text2);line-height:1.5;}
+
+/* FAQ */
+.faq-section{background:var(--dark);}
+.faq-list{max-width:750px;margin:0 auto;}
+.faq-item{border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:0.8rem;overflow:hidden;transition:all 0.3s;}
+.faq-item:hover{border-color:rgba(245,200,66,0.15);}
+.faq-q{padding:1.2rem 1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:0.93rem;color:var(--text);user-select:none;}
+.faq-q:hover{color:var(--gold);}
+.faq-icon{font-size:1.2rem;transition:transform 0.3s;color:var(--gold);}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;padding:0 1.5rem;color:var(--text2);font-size:0.88rem;line-height:1.7;}
+.faq-item.open .faq-a{max-height:200px;padding:0 1.5rem 1.2rem;}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,rgba(124,58,237,0.1) 0%,rgba(245,200,66,0.05) 100%);border-top:1px solid rgba(245,200,66,0.1);border-bottom:1px solid rgba(245,200,66,0.1);text-align:center;}
+.cta-section h2{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem;}
+.cta-section p{color:var(--text2);font-size:1.05rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto;}
+
+/* TERMOS MODAL */
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:8000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+#modal-overlay.show{display:flex;}
+.modal-box{background:var(--dark3);border:1px solid rgba(245,200,66,0.2);border-radius:16px;padding:2.5rem;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;position:relative;}
+.modal-box h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:1.5rem;color:var(--gold);}
+.modal-box p,.modal-box li{color:var(--text2);font-size:0.88rem;line-height:1.8;margin-bottom:0.8rem;}
+.modal-box h4{color:var(--text);font-weight:700;margin:1rem 0 0.5rem;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--text2);font-size:1.2rem;cursor:pointer;}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid rgba(255,255,255,0.05);padding:4rem 2rem 2rem;position:relative;z-index:1;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:3rem;max-width:1100px;margin:0 auto 3rem;}
+.footer-brand .footer-logo{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--gold3),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;}
+.footer-brand p{color:var(--text2);font-size:0.88rem;max-width:260px;line-height:1.6;}
+.footer-links h4{font-weight:700;font-size:0.82rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:1rem;}
+.footer-links ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem;}
+.footer-links a,.footer-links button{color:var(--text2);text-decoration:none;font-size:0.88rem;transition:color 0.3s;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;}
+.footer-links a:hover,.footer-links button:hover{color:var(--gold);}
+.footer-bottom{max-width:1100px;margin:0 auto;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-bottom p{color:var(--text2);font-size:0.8rem;}
+.footer-dev{color:var(--gold);font-weight:600;}
+
+/* BACK TO TOP */
+#back-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;cursor:pointer;font-size:1.1rem;z-index:500;opacity:0;transform:translateY(10px);transition:all 0.3s;display:flex;align-items:center;justify-content:center;}
+#back-top.show{opacity:1;transform:translateY(0);}
+#back-top:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(245,200,66,0.4);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(25px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.up{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .stat-big{min-width:130px;padding:2rem 1rem;}
+  .stat-big-num{font-size:2rem;}
+  .footer-top{flex-direction:column;}
+  .footer-bottom{flex-direction:column;text-align:center;}
+  .cursor,.cursor-ring{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loading-logo">MasterBot Inc</div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<!-- POPUP NOVIDADE -->
+<div id="popup">
+  <div class="popup-box">
+    <button class="popup-close" onclick="document.getElementById('popup').classList.add('hide')">✕</button>
+    <div style="font-size:2.5rem;margin-bottom:1rem;">🎉</div>
+    <h3>ParceriasBR Lançado!</h3>
+    <p>Nosso novo bot de parcerias automático acabou de ser lançado! Feche parcerias em segundos com verificação automática.</p>
+    <a href="#bots" class="btn-gold" onclick="document.getElementById('popup').classList.add('hide')" style="display:inline-flex;justify-content:center;width:100%;">Ver o Bot →</a>
+  </div>
+</div>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <p>🍪 Usamos cookies para melhorar sua experiência. <a href="#" onclick="showModal('privacy')">Política de Privacidade</a></p>
+  <button class="cookie-btn" onclick="document.getElementById('cookie-banner').style.display='none'">Aceitar</button>
+  <button class="cookie-dismiss" onclick="document.getElementById('cookie-banner').style.display='none'">✕</button>
+</div>
+
+<!-- MODAL TERMOS/PRIVACIDADE -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('show')">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<canvas id="canvas-bg"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">MasterBot Inc</div>
+  <ul class="nav-links">
+    <li><a href="#bots">Bots</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#updates">Updates</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="theme-btn" title="Alternar tema">🌙</button>
+    <a href="#bots" class="nav-cta">Ver Bots →</a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="#bots" onclick="closeMobile()">Bots</a></li>
+    <li><a href="#features" onclick="closeMobile()">Features</a></li>
+    <li><a href="#roadmap" onclick="closeMobile()">Roadmap</a></li>
+    <li><a href="#updates" onclick="closeMobile()">Updates</a></li>
+    <li><a href="#faq" onclick="closeMobile()">FAQ</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">✦ MasterBot Inc — 100% Gratuito</div>
+    <h1><span class="line1">Bots que seu</span><span class="line2">servidor merece</span></h1>
+    <p class="hero-desc">Bots profissionais, completos e <strong>totalmente gratuitos</strong> para transformar seu servidor Discord. Enquanto outros cobram, nós entregamos de graça.</p>
+    <div class="hero-btns">
+      <a href="#bots" class="btn-gold">🚀 Ver Nossos Bots</a>
+      <a href="#features" class="btn-outline">✦ Por que nos escolher?</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">6+</span><span class="stat-lbl">Bots Disponíveis</span></div>
+      <div class="stat-item"><span class="stat-num">10k+</span><span class="stat-lbl">Linhas de Código</span></div>
+      <div class="stat-item"><span class="stat-num">100%</span><span class="stat-lbl">Gratuito</span></div>
+      <div class="stat-item"><span class="stat-num">🇧🇷</span><span class="stat-lbl">Em Português</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- STATS -->
+<section class="section stats-section">
+  <div class="stats-row reveal">
+    <div class="stat-big"><span class="stat-big-num" data-target="6" data-suffix="+">0</span><span class="stat-big-lbl">Bots Disponíveis</span></div>
+    <div class="stat-big"><span class="stat-big-num" data-target="10" data-suffix="k+">0</span><span class="stat-big-lbl">Mil Linhas de Código</span></div>
+    <div class="stat-big"><span class="stat-big-num" data-target="100" data-suffix="%">0</span><span class="stat-big-lbl">Gratuito</span></div>
+    <div class="stat-big"><span class="stat-big-num">∞</span><span class="stat-big-lbl">Servidores Suportados</span></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- BOTS -->
+<section class="section bots-section" id="bots">
+  <div class="section-header reveal">
+    <div class="section-tag">Nossos Produtos</div>
+    <h2 class="section-title">Conheça nossos <span>Bots</span></h2>
+    <p class="section-desc">Cada bot foi desenvolvido com foco em qualidade e recursos que outros cobram caro</p>
+  </div>
+  <div class="filter-row reveal">
+    <button class="filter-btn active" onclick="filterBots('todos',this)">Todos</button>
+    <button class="filter-btn" onclick="filterBots('suporte',this)">Suporte</button>
+    <button class="filter-btn" onclick="filterBots('seguranca',this)">Segurança</button>
+    <button class="filter-btn" onclick="filterBots('comunidade',this)">Comunidade</button>
+  </div>
+  <div class="bots-grid">
+    <div class="bot-card reveal reveal-delay-1" data-cat="suporte">
+      <div class="bot-card-top"><div class="bot-icon-wrap">🎫</div><span class="bot-badge">TOP 3 MUNDIAL</span></div>
+      <div class="bot-name">TicketMaster BR</div>
+      <div class="bot-desc">O sistema de tickets mais completo do Brasil! Categorias, prioridade, FAQ automático, transcript, avaliação, ranking de staff, blacklist, anti-spam e muito mais!</div>
+      <div class="bot-tags"><span class="tag">Tickets</span><span class="tag">Suporte</span><span class="tag">FAQ</span><span class="tag">Transcript</span></div>
+      <div class="bot-footer"><a href="#" class="bot-add-btn">➕ Adicionar</a><button class="bot-share-btn" onclick="shareBot('TicketMaster BR')" title="Compartilhar">📤</button></div>
+    </div>
+    <div class="bot-card reveal reveal-delay-2" data-cat="seguranca">
+      <div class="bot-card-top"><div class="bot-icon-wrap">👋</div><span class="bot-badge">TOP 3 BR</span></div>
+      <div class="bot-name">WelcomeMaster BR</div>
+      <div class="bot-desc">Transforme a entrada do servidor em experiência épica! Anti-raid, imagem personalizada, tracking de convites, verificação com captcha e muito mais!</div>
+      <div class="bot-tags"><span class="tag">Boas-Vindas</span><span class="tag">Anti-Raid</span><span class="tag">Verificação</span></div>
+      <div class="bot-footer"><a href="#" class="bot-add-btn">➕ Adicionar</a><button class="bot-share-btn" onclick="shareBot('WelcomeMaster BR')" title="Compartilhar">📤</button></div>
+    </div>
+    <div class="bot-card reveal reveal-delay-3" data-cat="comunidade">
+      <div class="bot-card-top"><div class="bot-icon-wrap">🎉</div><span class="bot-badge">COMPLETO</span></div>
+      <div class="bot-name">SorteioMaster BR</div>
+      <div class="bot-desc">Múltiplos ganhadores, bônus VIP, modo secreto, sorteio recorrente, imagem épica do ganhador, templates e muito mais!</div>
+      <div class="bot-tags"><span class="tag">Sorteios</span><span class="tag">Giveaway</span><span class="tag">VIP</span></div>
+      <div class="bot-footer"><a href="#" class="bot-add-btn">➕ Adicionar</a><button class="bot-share-btn" onclick="shareBot('SorteioMaster BR')" title="Compartilhar">📤</button></div>
+    </div>
+    <div class="bot-card reveal reveal-delay-1" data-cat="comunidade">
+      <div class="bot-card-top"><div class="bot-icon-wrap">🤝</div><span class="bot-badge">NOVO</span></div>
+      <div class="bot-name">ParceriasBR</div>
+      <div class="bot-desc">Feche parcerias em segundos! Cole o link, o bot verifica automaticamente e anuncia com embed profissional no canal!</div>
+      <div class="bot-tags"><span class="tag">Parcerias</span><span class="tag">Automático</span><span class="tag">Embed</span></div>
+      <div class="bot-footer"><a href="#" class="bot-add-btn">➕ Adicionar</a><button class="bot-share-btn" onclick="shareBot('ParceriasBR')" title="Compartilhar">📤</button></div>
+    </div>
+    <div class="bot-card reveal reveal-delay-2" data-cat="seguranca">
+      <div class="bot-card-top"><div class="bot-icon-wrap">🦊</div><span class="bot-badge">SEGURANÇA</span></div>
+      <div class="bot-name">Guardiã Fox</div>
+      <div class="bot-desc">Segurança total! Anti-link, anti-invasão, logs completos e sistema de punições automáticas para manter sua comunidade protegida!</div>
+      <div class="bot-tags"><span class="tag">Segurança</span><span class="tag">Moderação</span><span class="tag">Logs</span></div>
+      <div class="bot-footer"><a href="#" class="bot-add-btn">➕ Adicionar</a><button class="bot-share-btn" onclick="shareBot('Guardiã Fox')" title="Compartilhar">📤</button></div>
+    </div>
+    <div class="bot-card reveal reveal-delay-3" data-cat="seguranca">
+      <div class="bot-card-top"><div class="bot-icon-wrap">🔐</div><span class="bot-badge">PROTEÇÃO</span></div>
+      <div class="bot-name">VerifyMaster BR</div>
+      <div class="bot-desc">Captcha profissional com imagem gerada automaticamente! Proteja seu servidor de bots e contas falsas!</div>
+      <div class="bot-tags"><span class="tag">Captcha</span><span class="tag">Verificação</span><span class="tag">Anti-Bot</span></div>
+      <div class="bot-footer"><a href="#" class="bot-add-btn">➕ Adicionar</a><button class="bot-share-btn" onclick="shareBot('VerifyMaster BR')" title="Compartilhar">📤</button></div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- FEATURES -->
+<section class="section features-section" id="features">
+  <div class="section-header reveal">
+    <div class="section-tag">Diferenciais</div>
+    <h2 class="section-title">Por que nos <span>escolher?</span></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item reveal reveal-delay-1"><div class="feature-icon">💎</div><div class="feature-name">100% Gratuito Para Sempre</div><div class="feature-text">Nenhum plano pago, nenhuma limitação escondida. Todos os recursos disponíveis de graça.</div></div>
+    <div class="feature-item reveal reveal-delay-2"><div class="feature-icon">🇧🇷</div><div class="feature-name">Feito Para o Brasil</div><div class="feature-text">Desenvolvido em português BR para a comunidade brasileira de Discord.</div></div>
+    <div class="feature-item reveal reveal-delay-3"><div class="feature-icon">⚡</div><div class="feature-name">Alta Performance</div><div class="feature-text">Bots rápidos e estáveis, desenvolvidos com as melhores práticas.</div></div>
+    <div class="feature-item reveal reveal-delay-1"><div class="feature-icon">🎨</div><div class="feature-name">Visual Profissional</div><div class="feature-text">Embeds bonitas, imagens geradas automaticamente e interfaces intuitivas.</div></div>
+    <div class="feature-item reveal reveal-delay-2"><div class="feature-icon">🔧</div><div class="feature-name">Fácil de Configurar</div><div class="feature-text">Painéis com botões e menus. Sem necessidade de conhecimento técnico.</div></div>
+    <div class="feature-item reveal reveal-delay-3"><div class="feature-icon">🛡️</div><div class="feature-name">Seguro e Confiável</div><div class="feature-text">Seus dados são tratados com segurança e responsabilidade.</div></div>
+    <div class="feature-item reveal reveal-delay-1"><div class="feature-icon">🔄</div><div class="feature-name">Atualizações Constantes</div><div class="feature-text">Novos recursos e correções baseados no feedback da comunidade.</div></div>
+    <div class="feature-item reveal reveal-delay-2"><div class="feature-icon">💬</div><div class="feature-name">Suporte em Português</div><div class="feature-text">Suporte dedicado em português para qualquer dúvida ou problema.</div></div>
+    <div class="feature-item reveal reveal-delay-3"><div class="feature-icon">🏆</div><div class="feature-name">Qualidade de Nível Mundial</div><div class="feature-text">Funcionalidades que outros cobram R$50+/mês, disponíveis de graça aqui.</div></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ROADMAP -->
+<section class="section roadmap-section" id="roadmap">
+  <div class="section-header reveal">
+    <div class="section-tag">Futuro</div>
+    <h2 class="section-title">Nosso <span>Roadmap</span></h2>
+    <p class="section-desc">Veja o que já foi feito e o que está por vir</p>
+  </div>
+  <div class="roadmap-list">
+    <div class="roadmap-item reveal"><div class="roadmap-dot done">✅</div><div class="roadmap-content"><div class="roadmap-status done">Concluído</div><div class="roadmap-title">TicketMaster BR — Sistema completo de tickets</div><div class="roadmap-desc">FAQ, transcript, avaliação, ranking, blacklist, anti-spam e muito mais.</div></div></div>
+    <div class="roadmap-item reveal reveal-delay-1"><div class="roadmap-dot done">✅</div><div class="roadmap-content"><div class="roadmap-status done">Concluído</div><div class="roadmap-title">WelcomeMaster BR — Sistema de boas-vindas épico</div><div class="roadmap-desc">Anti-raid, captcha, tracking de convites, múltiplos cargos ao verificar.</div></div></div>
+    <div class="roadmap-item reveal reveal-delay-2"><div class="roadmap-dot done">✅</div><div class="roadmap-content"><div class="roadmap-status done">Concluído</div><div class="roadmap-title">SorteioMaster BR — Sorteios profissionais</div><div class="roadmap-desc">Múltiplos ganhadores, modo secreto, sorteio recorrente, templates.</div></div></div>
+    <div class="roadmap-item reveal"><div class="roadmap-dot done">✅</div><div class="roadmap-content"><div class="roadmap-status done">Concluído</div><div class="roadmap-title">ParceriasBR — Parcerias automáticas</div><div class="roadmap-desc">Verificação automática de convites e anúncio profissional.</div></div></div>
+    <div class="roadmap-item reveal reveal-delay-1"><div class="roadmap-dot progress">⚡</div><div class="roadmap-content"><div class="roadmap-status progress">Em Desenvolvimento</div><div class="roadmap-title">Bot de Economia — Moedas e ranking</div><div class="roadmap-desc">Sistema completo de economia com moedas, trabalho, apostas e ranking.</div></div></div>
+    <div class="roadmap-item reveal reveal-delay-2"><div class="roadmap-dot planned">📅</div><div class="roadmap-content"><div class="roadmap-status planned">Planejado</div><div class="roadmap-title">Bot de Níveis — XP e progressão</div><div class="roadmap-desc">Sistema de XP por mensagens, níveis e cargos automáticos.</div></div></div>
+    <div class="roadmap-item reveal reveal-delay-3"><div class="roadmap-dot planned">📅</div><div class="roadmap-content"><div class="roadmap-status planned">Planejado</div><div class="roadmap-title">Bot de IA — Respostas inteligentes</div><div class="roadmap-desc">Bot com inteligência artificial para responder perguntas e ajudar membros.</div></div></div>
+    <div class="roadmap-item reveal"><div class="roadmap-dot planned">📅</div><div class="roadmap-content"><div class="roadmap-status planned">Planejado</div><div class="roadmap-title">Versão em Inglês de todos os bots</div><div class="roadmap-desc">Expansão para o mercado internacional com todos os bots em inglês.</div></div></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- UPDATES -->
+<section class="section updates-section" id="updates">
+  <div class="section-header reveal">
+    <div class="section-tag">Novidades</div>
+    <h2 class="section-title">Últimas <span>Atualizações</span></h2>
+  </div>
+  <div class="updates-list">
+    <div class="update-item reveal"><div class="update-date"><span class="update-date-day">15</span><span class="update-date-month">Mar 26</span></div><div><span class="update-tag new">NOVO</span><div class="update-title">ParceriasBR lançado!</div><div class="update-desc">Bot de parcerias automático com verificação de link e embed profissional.</div></div></div>
+    <div class="update-item reveal reveal-delay-1"><div class="update-date"><span class="update-date-day">14</span><span class="update-date-month">Mar 26</span></div><div><span class="update-tag improve">MELHORIA</span><div class="update-title">TicketMaster BR — Botões com emoji</div><div class="update-desc">Painel reformulado com emojis, cores e organização melhoradas.</div></div></div>
+    <div class="update-item reveal reveal-delay-2"><div class="update-date"><span class="update-date-day">13</span><span class="update-date-month">Mar 26</span></div><div><span class="update-tag new">NOVO</span><div class="update-title">WelcomeMaster — Múltiplos cargos ao verificar</div><div class="update-desc">Configure vários cargos entregues automaticamente após verificação.</div></div></div>
+    <div class="update-item reveal reveal-delay-3"><div class="update-date"><span class="update-date-day">12</span><span class="update-date-month">Mar 26</span></div><div><span class="update-tag fix">CORREÇÃO</span><div class="update-title">TicketMaster BR — Correção de timeout</div><div class="update-desc">Corrigido erro "aplicativo não respondeu" no /ticket config.</div></div></div>
+    <div class="update-item reveal"><div class="update-date"><span class="update-date-day">10</span><span class="update-date-month">Mar 26</span></div><div><span class="update-tag new">NOVO</span><div class="update-title">SorteioMaster — Sorteio recorrente</div><div class="update-desc">Sorteios se repetem automaticamente a cada X dias configurável.</div></div></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+  <div class="section-header reveal">
+    <div class="section-tag">Dúvidas</div>
+    <h2 class="section-title">Perguntas <span>Frequentes</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal"><div class="faq-q">Os bots são realmente gratuitos? <span class="faq-icon">+</span></div><div class="faq-a">Sim! Todos os nossos bots são 100% gratuitos. Não existe plano pago ou limitação escondida. Acesso completo a todas as funcionalidades sem pagar nada.</div></div>
+    <div class="faq-item reveal reveal-delay-1"><div class="faq-q">Como adiciono um bot ao meu servidor? <span class="faq-icon">+</span></div><div class="faq-a">Clique em "Adicionar" ao lado do bot desejado. Você será redirecionado para autorização do Discord. Selecione o servidor e confirme as permissões.</div></div>
+    <div class="faq-item reveal reveal-delay-2"><div class="faq-q">Preciso saber programar para usar? <span class="faq-icon">+</span></div><div class="faq-a">Não! Todos os bots têm painéis com botões e menus intuitivos. Qualquer pessoa configura sem nenhum conhecimento técnico.</div></div>
+    <div class="faq-item reveal reveal-delay-3"><div class="faq-q">Os bots ficam online 24 horas? <span class="faq-icon">+</span></div><div class="faq-a">Sim! Nossos bots ficam online 24/7. Em caso de manutenção programada, avisamos com antecedência.</div></div>
+    <div class="faq-item reveal"><div class="faq-q">Posso usar mais de um bot no mesmo servidor? <span class="faq-icon">+</span></div><div class="faq-a">Claro! Você pode adicionar todos os bots no mesmo servidor. Cada um tem sua função e funcionam perfeitamente juntos.</div></div>
+    <div class="faq-item reveal reveal-delay-1"><div class="faq-q">Como entro em contato para suporte? <span class="faq-icon">+</span></div><div class="faq-a">Entre em contato com o desenvolvedor Shadow diretamente pelo Discord. Respondemos o mais rápido possível!</div></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- CTA -->
+<section class="section cta-section">
+  <div class="reveal">
+    <h2>Pronto para transformar<br>seu servidor?</h2>
+    <p>Junte-se a servidores que já usam nossos bots gratuitamente</p>
+    <a href="#bots" class="btn-gold" style="font-size:1rem;padding:1rem 2.5rem;">🚀 Adicionar Bots — É Grátis!</a>
+    <p style="margin-top:1.5rem;font-size:0.83rem;color:var(--text2);">Dúvidas? <span style="color:var(--gold);font-weight:600;">Dev: ⭐ Shadow</span></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">MasterBot Inc</div>
+      <p>Os melhores bots do Discord BR. Profissionais, completos e 100% gratuitos.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Bots</h4>
+      <ul>
+        <li><a href="#">TicketMaster BR</a></li>
+        <li><a href="#">WelcomeMaster BR</a></li>
+        <li><a href="#">SorteioMaster BR</a></li>
+        <li><a href="#">ParceriasBR</a></li>
+        <li><a href="#">Guardiã Fox</a></li>
+        <li><a href="#">VerifyMaster BR</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Legal</h4>
+      <ul>
+        <li><button onclick="showModal('terms')">Termos de Uso</button></li>
+        <li><button onclick="showModal('privacy')">Política de Privacidade</button></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#bots">Nossos Bots</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#updates">Updates</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 MasterBot Inc — Todos os direitos reservados</p>
+    <p class="footer-dev">Dev: ⭐ Shadow</p>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// === LOADING ===
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hide');
+    spawnConfetti();
+  }, 1600);
+});
+
+// === CONFETTI ===
+function spawnConfetti() {
+  const colors = ['#F5C842','#A855F7','#10B981','#3B82F6','#EF4444','#FFE082'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.5?'50%':'2px'};animation-delay:${Math.random()*2}s;animation-duration:${2+Math.random()*2}s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+
+// === CURSOR ===
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    cursorRing.style.left = e.clientX + 'px';
+    cursorRing.style.top = e.clientY + 'px';
+  }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; cursorRing.style.transform = 'translate(-50%,-50%) scale(1.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; cursorRing.style.transform = 'translate(-50%,-50%) scale(1)'; });
+});
+
+// === CANVAS ===
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+const dots = Array.from({length:70},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,color:Math.random()>.5?'#F5C842':'#A855F7'}));
+function animCanvas(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  dots.forEach(d=>{
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<0||d.x>canvas.width)d.vx*=-1;
+    if(d.y<0||d.y>canvas.height)d.vy*=-1;
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle=d.color;ctx.fill();
+  });
+  dots.forEach((a,i)=>dots.slice(i+1).forEach(b=>{
+    const dist=Math.hypot(a.x-b.x,a.y-b.y);
+    if(dist<120){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(245,200,66,${.07*(1-dist/120)})`;ctx.lineWidth=.5;ctx.stroke();}
+  }));
+  requestAnimationFrame(animCanvas);
+}
+animCanvas();
+
+// === NAVBAR ===
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+  document.getElementById('back-top').classList.toggle('show',window.scrollY>300);
+});
+
+// === HAMBURGER ===
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click',()=>{
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+function closeMobile(){hamburger.classList.remove('open');mobileMenu.classList.remove('open');}
+
+// === THEME ===
+const themeBtn = document.getElementById('theme-btn');
+themeBtn.addEventListener('click',()=>{
+  const isDark = !document.documentElement.hasAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : '');
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
+});
+
+// === REVEAL ===
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('up');});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// === COUNTER ===
+const counterObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-target]').forEach(el=>{
+        const target=parseInt(el.dataset.target);
+        const suffix=el.dataset.suffix||'';
+        if(isNaN(target))return;
+        let current=0;const step=target/50;
+        const timer=setInterval(()=>{
+          current+=step;
+          if(current>=target){el.textContent=target+suffix;clearInterval(timer);}
+          else el.textContent=Math.floor(current)+suffix;
+        },30);
+      });
+      counterObs.unobserve(e.target);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.stats-row').forEach(el=>counterObs.observe(el));
+
+// === FAQ ===
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+// === FILTER BOTS ===
+function filterBots(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.bot-card').forEach(card=>{
+    if(cat==='todos'||card.dataset.cat===cat){card.style.display='';card.style.opacity='1';}
+    else{card.style.opacity='0';setTimeout(()=>card.style.display='none',300);}
+  });
+}
+
+// === SHARE ===
+function shareBot(name) {
+  const url = window.location.href;
+  if(navigator.share){navigator.share({title:name+' — MasterBot Inc',text:'Conheça o '+name+'! Bot gratuito para Discord.',url});}
+  else{navigator.clipboard.writeText(url);alert('Link copiado!');}
+}
+
+// === MODAL ===
+const termsContent = `<h3>📄 Termos de Uso</h3>
+<p>Última atualização: Março de 2026</p>
+<h4>1. Aceitação dos Termos</h4>
+<p>Ao adicionar e usar nossos bots, você concorda com estes termos de uso.</p>
+<h4>2. Uso Permitido</h4>
+<p>Nossos bots são fornecidos gratuitamente para uso em servidores Discord. É proibido usar os bots para atividades ilegais, spam ou qualquer forma de abuso.</p>
+<h4>3. Disponibilidade</h4>
+<p>Nos reservamos o direito de interromper ou modificar os serviços a qualquer momento sem aviso prévio.</p>
+<h4>4. Limitação de Responsabilidade</h4>
+<p>Não nos responsabilizamos por danos causados pelo uso ou impossibilidade de uso dos bots.</p>
+<h4>5. Contato</h4>
+<p>Para dúvidas, entre em contato com Dev: Shadow pelo Discord.</p>`;
+
+const privacyContent = `<h3>🔒 Política de Privacidade</h3>
+<p>Última atualização: Março de 2026</p>
+<h4>1. Dados Coletados</h4>
+<p>Nossos bots coletam apenas os dados necessários para funcionamento, como IDs de usuários, canais e servidores do Discord.</p>
+<h4>2. Uso dos Dados</h4>
+<p>Os dados são usados exclusivamente para fornecer as funcionalidades dos bots. Não vendemos, compartilhamos ou usamos seus dados para fins publicitários.</p>
+<h4>3. Armazenamento</h4>
+<p>Os dados são armazenados localmente no servidor onde o bot está hospedado e não são compartilhados com terceiros.</p>
+<h4>4. Seus Direitos</h4>
+<p>Você pode solicitar a exclusão dos seus dados a qualquer momento entrando em contato com Dev: Shadow.</p>
+<h4>5. Cookies</h4>
+<p>Este site usa cookies para melhorar sua experiência de navegação.</p>`;
+
+function showModal(type){
+  document.getElementById('modal-content').innerHTML = type==='terms' ? termsContent : privacyContent;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+document.getElementById('modal-overlay').addEventListener('click', e=>{
+  if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('show');
+});
+
+// === EASTER EGG ===
+let konamiCode = [];
+const konami = [38,38,40,40,37,39,37,39,66,65];
+document.addEventListener('keydown', e=>{
+  konamiCode.push(e.keyCode);
+  if(konamiCode.length>10)konamiCode.shift();
+  if(JSON.stringify(konamiCode)===JSON.stringify(konami)){
+    for(let i=0;i<5;i++)setTimeout(()=>spawnConfetti(),i*500);
+    alert('🎉 Easter Egg encontrado! Você descobriu o código secreto! Dev: Shadow 😈');
+    konamiCode=[];
+  }
+});
+
+// === POPUP ===
+setTimeout(()=>{
+  const popup = document.getElementById('popup');
+  if(popup)popup.classList.remove('hide');
+}, 2000);
+</script>
+</body>
+</html>
